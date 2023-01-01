@@ -82,10 +82,11 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.45/dist/vue.global.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.2.45/dist/vue.global.min.js"></script> -->
 
-  <script>
-  const { createApp } = Vue
+  <script type="module">
+  import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+  // const { createApp } = Vue
 
     const products = [
       {
