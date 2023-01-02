@@ -59,12 +59,10 @@
                 {{products[isActive].content}}
               </p>
               <p class="card-text">
-                售價：{{products[isActive].price}}
-                <span class="text-secondary">
-                  <del>{{products[isActive].origin_price}}</del>
-                  {{products[isActive].unit}}
-                </span>
-                /元
+                售價：
+                <span class="fs-2 fw-bold fst-italic text-danger">${{products[isActive].price}} </span>
+                <span class="text-secondary text-decoration-line-through">${{products[isActive].origin_price}}</span>
+                {{products[isActive].unit}}/元
               </p>
             </div>
           </div>
