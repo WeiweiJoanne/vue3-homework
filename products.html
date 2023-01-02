@@ -60,7 +60,7 @@
               </p>
               <p class="card-text">
                 售價：
-                <span class="fs-2 fw-bold fst-italic text-danger">${{products[isActive].price}} </span>
+                <span class="fs-2 fw-bold fst-italic text-danger me-2">${{products[isActive].price}} </span>
                 <span class="text-secondary text-decoration-line-through">${{products[isActive].origin_price}}</span>
                 {{products[isActive].unit}}/元
               </p>
@@ -143,7 +143,7 @@
               .catch(err => console.log(err))
           })
           .catch(err => {
-            window.location.href = '../week2/'
+            window.location.href = './login.html'
           })
       },
       methods: {
@@ -158,7 +158,7 @@
               console.log(res);
               if (res.data.success) {
                 alert(res.data.message)
-                window.location.href='../week2/'
+                window.location.href='./login.html'
               }
             })
             .catch(err => console.log(err))
