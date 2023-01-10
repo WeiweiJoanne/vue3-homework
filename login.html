@@ -23,12 +23,7 @@
 
 <body>
   <div id="app">
-    <div class="d-flex justify-content-center align-items-center" id="loading" v-if="isLoading">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center align-items-center" v-else>
+    <div class="d-flex justify-content-center align-items-center">
       <div class="col-12 col-sm-8 col-lg-5 p-3">
         <h2 class="text-center">登入頁面</h2>
         <div class="mb-3">
@@ -61,23 +56,23 @@
         return {
           username: '',
           password: '',
-          isLoading: true
+          // isLoading: true
         }
       },
       mounted() {
-        const token = document.cookie.replace(/(?:(?:^|.*;\s*)petsHome\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-        axios.defaults.headers.common['Authorization'] = token
+        // const token = document.cookie.replace(/(?:(?:^|.*;\s*)petsHome\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        // axios.defaults.headers.common['Authorization'] = token
 
-        const api = `${url}api/user/check`
+        // const api = `${url}api/user/check`
 
-        axios.post(api)
-          .then(res => {
-            window.location.href = './products.html'
-          })
-          .catch(err => {
-            this.isLoading = false
-            console.log(err.response.data)
-          })
+        // axios.post(api)
+        //   .then(res => {
+        //     window.location.href = './products.html'
+        //   })
+        //   .catch(err => {
+        //     this.isLoading = false
+        //     console.log(err.response.data)
+        //   })
       },
       methods: {
         login(username, password) {
@@ -90,7 +85,6 @@
             }
             axios.post(api, body)
               .then(res => {
-                console.log(res.data);
                 const { message, token, expired } = res.data
                 alert(message)
                 document.cookie = `petsHome=${token}; expire=${expired}; Path=/`
