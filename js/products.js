@@ -32,7 +32,6 @@ const app = {
       handler:function(newVal){
         const vm = this
           vm.insertImgBtn = newVal.images[newVal.images.length - 1] !== '' ? 'insert' : 'delete'
-        
       },
       deep:true
     }
