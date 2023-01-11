@@ -13,7 +13,7 @@
       height: 100vh;
     }
 
-    #app>.d-flex,#loading {
+    #app>.d-flex {
       height: 100%;
     }
 
@@ -55,8 +55,7 @@
       data() {
         return {
           username: '',
-          password: '',
-          // isLoading: true
+          password: ''
         }
       },
       mounted() {
@@ -70,7 +69,6 @@
         //     window.location.href = './products.html'
         //   })
         //   .catch(err => {
-        //     this.isLoading = false
         //     console.log(err.response.data)
         //   })
       },
@@ -85,6 +83,7 @@
             }
             axios.post(api, body)
               .then(res => {
+                console.log(res.data);
                 const { message, token, expired } = res.data
                 alert(message)
                 document.cookie = `petsHome=${token}; expire=${expired}; Path=/`
