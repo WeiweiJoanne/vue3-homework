@@ -13,27 +13,28 @@ const app = {
       isActive: null,
       isLoading: true,
       modalFor: null,
-      insertImgBtn:'insert',
+      insertImgBtn: 'insert',
       productTemp: {
         title: '',
         category: '',
         unit: '',
-        originPrice: '',
-        price: '',
+        origin_price: 0,
+        price: 0,
         description: '',
         content: '',
-        bigImage: '',
-        images: []
+        is_enabled: 0,
+        imageUrl: '',
+        imagesUrl: []
       },
     }
   },
-  watch:{
-    productTemp:{
-      handler:function(newVal){
+  watch: {
+    productTemp: {
+      handler: function (newVal) {
         const vm = this
-          vm.insertImgBtn = newVal.images[newVal.images.length - 1] !== '' ? 'insert' : 'delete'
+        vm.insertImgBtn = newVal.imagesUrl[newVal.imagesUrl.length - 1] !== '' ? 'insert' : 'delete'
       },
-      deep:true
+      deep: true
     }
   },
   mounted() {
@@ -41,40 +42,63 @@ const app = {
     productModal = new bootstrap.Modal(document.getElementById('productModal'), {
       keyboard: false
     });
-    
+
   },
   methods: {
-    openModal(){
+    addProduct() {
+      
+      const vm = this
+      const objVal = Object.values(vm.productTemp)
+      let isValidForm = objVal.includes('') ? false: true
+
+      if (!isValidForm){
+        alert('請將欄位填寫完畢')
+      }else{
+        const addProductAPI = `${url}api/${path}/admin/product`
+        const data = {
+          data: vm.productTemp
+        }
+        axios.post(addProductAPI, data)
+          .then(res=> {
+            vm.productTemp = { imagesUrl:[] }
+            vm.getProductAll()
+            productModal.hide();
+          })
+          .catch(err=> console.log(err))
+      }
+    },
+    openModal() {
       productModal.show();
     },
-    switchImgBtn(status){
-      const vm = this 
-      vm.insertImgBtn = status 
-      status === 'delete' ? vm.productTemp.images.push('') : vm.productTemp.images.splice(-1, 1)
+    switchImgBtn(status) {
+      const vm = this
+      vm.insertImgBtn = status
+      status === 'delete' ? vm.productTemp.imagesUrl.push('') : vm.productTemp.imagesUrl.splice(-1, 1)
     },
-    // addImage(image){
-    //   // const img = e.target.value
-    //   this.productTemp.images.push(image)
-    // },
     productDetail(num) {
       const vm = this;
       vm.isActive = num
     },
-    isLogin(){
+    getProductAll(){
+      const getProductsAPI = `${url}api/${path}/admin/products/all`
+      axios.get(getProductsAPI)
+        .then(res => {
+          this.products = Object.values(res.data.products)
+          this.isLoading = false
+        })
+        .catch(err => console.log(err))
+    },
+    isLogin() {
+      const vm = this
       const token = document.cookie.replace(/(?:(?:^|.*;\s*)petsHome\s*\=\s*([^;]*).*$)|^.*$/, "$1");
       axios.defaults.headers.common['Authorization'] = token
-  
+
       const checkLoginAPI = `${url}api/user/check`
-      const getProductsAPI = `${url}api/${path}/admin/products/all`
-  
+      
+
       axios.post(checkLoginAPI)
         .then(res => {
-          axios.get(getProductsAPI)
-            .then(res => {
-              this.products = Object.values(res.data.products)
-              this.isLoading = false
-            })
-            .catch(err => console.log(err))
+          vm.getProductAll()
         })
         .catch(err => {
           window.location.href = './login.html'
