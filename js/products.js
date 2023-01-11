@@ -1,5 +1,4 @@
 import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-// const { createApp } = Vue
 
 const url = 'https://vue3-course-api.hexschool.io/v2/'
 const path = 'petshome'
@@ -14,6 +13,7 @@ const app = {
       isActive: null,
       isLoading: true,
       modalFor: null,
+      insertImgBtn:'insert',
       productTemp: {
         title: '',
         category: '',
@@ -25,17 +25,16 @@ const app = {
         bigImage: '',
         images: []
       },
-      // newProduct: {
-      //   title: '123',
-      //   category: 'category',
-      //   unit: 'unit',
-      //   originPrice: 'originPrice',
-      //   price: 'price',
-      //   description: 'description',
-      //   content: 'content',
-      //   bigImage: 'bigImage',
-      //   images: []
-      // },
+    }
+  },
+  watch:{
+    productTemp:{
+      handler:function(newVal){
+        const vm = this
+          vm.insertImgBtn = newVal.images[newVal.images.length - 1] !== '' ? 'insert' : 'delete'
+        
+      },
+      deep:true
     }
   },
   mounted() {
@@ -45,18 +44,19 @@ const app = {
     });
     
   },
-  computed:{
-    
-  },
   methods: {
     openModal(){
       productModal.show();
     },
-    addImage(e){
-      const img = e.target.value
-      this.newProduct.images.push(img)
-      console.log("🚀 ~ file: products.js:36 ~ addImage ~ img", this.newProduct.images)
+    switchImgBtn(status){
+      const vm = this 
+      vm.insertImgBtn = status 
+      status === 'delete' ? vm.productTemp.images.push('') : vm.productTemp.images.splice(-1, 1)
     },
+    // addImage(image){
+    //   // const img = e.target.value
+    //   this.productTemp.images.push(image)
+    // },
     productDetail(num) {
       const vm = this;
       vm.isActive = num
