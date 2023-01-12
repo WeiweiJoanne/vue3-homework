@@ -46,6 +46,12 @@ const app = {
       vm.modalFor = todo;
       if (todo == "new") {
         vm.productTemp = {};
+      } else if (todo == "edit") {
+        vm.products.forEach((el, i) => {
+          if (el.id === id) {
+            vm.productTemp = { ...vm.products[i] };
+          }
+        });
       } else {
         vm.products.forEach((el, i) => {
           if (el.id === id) {
@@ -60,28 +66,49 @@ const app = {
       const vm = this;
       const objVal = Object.values(vm.productTemp);
       const isValidForm = objVal.includes("") ? false : true;
-      const excuteAPI = vm.modalFor === "new" ? `${url}api/${path}/admin/product` : `${url}api/${path}/admin/product/${vm.productTemp.id}`
-      const method = vm.modalFor === "new" ? 'post' : `put`
+      const excuteAPI =
+        vm.modalFor === "new"
+          ? `${url}api/${path}/admin/product`
+          : `${url}api/${path}/admin/product/${vm.productTemp.id}`;
+      let method = ''
+      if (vm.modalFor === "new") {
+        method = 'post'
+      } else if (vm.modalFor === "edit") {
+        method = 'put'
+      } else if (vm.modalFor === "del") {
+        method = 'delete'
+      }
 
-      if (!isValidForm) {
-        alert("請將欄位填寫完畢");
-      } else {
-        const data = {
-          data: vm.productTemp,
-        };
-        axios[method](excuteAPI, data)
-          .then((res) => {
-            vm.productTemp = {};
-            vm.getProductAll();
-            productModal.hide();
-          })
-          .catch((err) => console.log(err));
+      if (vm.modalFor == 'new' || vm.modalFor == 'edit') {
+
+        if (!isValidForm) {
+          alert("請將欄位填寫完畢");
+        } else {
+          const data = {
+            data: vm.productTemp,
+          };
+          axios[method](excuteAPI, data)
+            .then((res) => {
+              vm.productTemp = {};
+              vm.getProductAll();
+              productModal.hide();
+            })
+            .catch((err) => console.log(err));
+        }
+      }else{
+        axios[method](excuteAPI)
+            .then((res) => {
+              vm.productTemp = {};
+              vm.getProductAll();
+              productModal.hide();
+            })
+            .catch((err) => console.log(err));
       }
     },
     switchImgBtn(status) {
       const vm = this;
       vm.insertImgBtn = status;
-      if (status === "delete") {
+      if (status === "del") {
         if (Object.keys(vm.productTemp).includes("imagesUrl")) {
           vm.productTemp.imagesUrl.push("");
         } else {
@@ -96,6 +123,7 @@ const app = {
       vm.isActive = num;
     },
     getProductAll() {
+      this.isLoading = true;
       const getProductsAPI = `${url}api/${path}/admin/products/all`;
       axios
         .get(getProductsAPI)
