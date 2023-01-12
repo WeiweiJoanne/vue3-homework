@@ -71,7 +71,7 @@
         </div>
         <div class="col-12 col-sm-7 col-lg-6">
           <div class="text-end my-4">
-            <button type="button" class="btn btn-primary"  @click="openModal()">
+            <button type="button" class="btn btn-primary"  @click="openModal('new')">
               新增產品
             </button>
           </div>
@@ -98,7 +98,7 @@
                   </td>
                   <td>
                     <div class="d-grid gap-2 d-md-block">
-                      <button type="button" class="btn btn-outline-secondary btn-sm">編輯</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm" @click="openModal('edit',product.id)">編輯</button>
                       <button type="button" class="btn btn-outline-danger btn-sm">刪除</button>
                     </div>
                   </td>
@@ -157,7 +157,7 @@
                   </div>
                   <div class="mb-3">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="product-enable" v-model="productTemp.is_enabled">
+                      <input class="form-check-input" type="checkbox" id="product-enable" v-model="productTemp.is_enabled" :checked="productTemp.is_enabled == 1">
                       <label class="form-check-label" for="product-enable">
                         產品啟用
                       </label>
@@ -172,8 +172,7 @@
                   </div>
                   <h3 class="mt-3 mb-2">多圖新增</h3>
                   <div class="">
-                    <!-- <div v-if="productTemp.images[productTemp.images.length-1] === '' "> -->
-                      <div v-if="productTemp.imagesUrl.length > 0">
+                      <div v-if="Array.isArray(productTemp.imagesUrl) && Object.keys(productTemp).includes('imagesUrl') ">
                         <div v-for="(image,i) in productTemp.imagesUrl" :key="i">
                           <input type="text" class="form-control" placeholder="請輸入圖片網址" v-model="productTemp.imagesUrl[i]">
                           <img class="img-fluid" :src="image">
@@ -181,11 +180,11 @@
                       </div>
                    
                     <div class="text-center mt-2 d-grid">
-                      <button type="button" class="btn btn-outline-secondary" @click="switchImgBtn('delete')" v-if="insertImgBtn =='insert' && productTemp.imagesUrl.length < 5">+</button>
+                      <button type="button" class="btn btn-outline-secondary" @click="switchImgBtn('delete')" v-if="insertImgBtn =='insert'">+</button>
                       <button type="button" class="btn btn-outline-danger" @click="switchImgBtn('insert')" v-else>-</button>
                     </div>
                     <div class="text-center mt-5 d-grid">
-                      <button type="button" class="btn btn-danger" @click="addProduct">建立新產品</button>
+                      <button type="button" class="btn btn-danger" @click="excute"><span v-if="modalFor === 'new'">建立新產品</span> <span v-else>更新產品</span> </button>
                     </div>
                   </div>
                 </div>
