@@ -108,7 +108,7 @@ const app = {
     switchImgBtn(status) {
       const vm = this;
       vm.insertImgBtn = status;
-      if (status === "del") {
+      if (status === "delete") {
         if (Object.keys(vm.productTemp).includes("imagesUrl")) {
           vm.productTemp.imagesUrl.push("");
         } else {
