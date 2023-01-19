@@ -1,5 +1,7 @@
 import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
+import pagination from "./pagination.js"
+
 const url = "https://vue3-course-api.hexschool.io/v2/";
 const path = "petshome";
 
@@ -14,6 +16,7 @@ const app = {
       modalFor: null,
       insertImgBtn: "insert",
       productTemp: {},
+      pagination:{}
     };
   },
   watch: {
@@ -124,11 +127,13 @@ const app = {
     },
     getProductAll() {
       this.isLoading = true;
-      const getProductsAPI = `${url}api/${path}/admin/products/all`;
+      const getProductsAPI = `${url}api/${path}/admin/products/?page=1`;
+      // const getProductsAPI = `${url}api/${path}/admin/products/all`;
       axios
         .get(getProductsAPI)
         .then((res) => {
           this.products = Object.values(res.data.products);
+          this.pagination = res.data.pagination
           this.isLoading = false;
         })
         .catch((err) => console.log(err));
@@ -165,5 +170,6 @@ const app = {
         .catch((err) => console.log(err));
     },
   },
+  components:{pagination}
 };
 createApp(app).mount("#app");
