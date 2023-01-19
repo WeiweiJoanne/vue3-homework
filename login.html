@@ -9,15 +9,9 @@
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
   <style>
-   
-
-
-
     #app>.d-flex {
       height: 100%;
     }
-
-
   </style>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 </head>
@@ -33,7 +27,7 @@
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="****" v-model="password">
+          <input type="password" class="form-control" id="password" placeholder="****" v-model="password" @keyup.enter="login(username,password)">
         </div>
         <button type="button" class="btn btn-primary col-12 mt-3" @click="login(username,password)">登入</button>
       </div>
