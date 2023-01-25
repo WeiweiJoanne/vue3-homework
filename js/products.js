@@ -16,7 +16,7 @@ const app = {
       modalFor: null,
       insertImgBtn: "insert",
       productTemp: {},
-      pagination:{}
+      pagination: {},
     };
   },
   watch: {
@@ -98,14 +98,14 @@ const app = {
             })
             .catch((err) => console.log(err));
         }
-      }else{
+      } else {
         axios[method](excuteAPI)
-            .then((res) => {
-              vm.productTemp = {};
-              vm.getProductAll();
-              productModal.hide();
-            })
-            .catch((err) => console.log(err));
+          .then((res) => {
+            vm.productTemp = {};
+            vm.getProductAll();
+            productModal.hide();
+          })
+          .catch((err) => console.log(err));
       }
     },
     switchImgBtn(status) {
@@ -125,9 +125,9 @@ const app = {
       const vm = this;
       vm.isActive = num;
     },
-    getProductAll() {
+    getProductAll(page=1) {
       this.isLoading = true;
-      const getProductsAPI = `${url}api/${path}/admin/products/?page=1`;
+      const getProductsAPI = `${url}api/${path}/admin/products/?page=${page}`;
       // const getProductsAPI = `${url}api/${path}/admin/products/all`;
       axios
         .get(getProductsAPI)
@@ -170,6 +170,6 @@ const app = {
         .catch((err) => console.log(err));
     },
   },
-  components:{pagination}
+  components: { pagination }
 };
 createApp(app).mount("#app");
