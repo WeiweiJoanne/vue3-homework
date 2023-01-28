@@ -1,5 +1,7 @@
 import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
+import pagination from "./pagination.js"
+
 const url = "https://vue3-course-api.hexschool.io/v2/";
 const path = "petshome";
 
@@ -14,6 +16,7 @@ const app = {
       modalFor: null,
       insertImgBtn: "insert",
       productTemp: {},
+      pagination: {},
     };
   },
   watch: {
@@ -49,13 +52,15 @@ const app = {
       } else if (todo == "edit") {
         vm.products.forEach((el, i) => {
           if (el.id === id) {
-            vm.productTemp = { ...vm.products[i] };
+            vm.productTemp = JSON.parse(JSON.stringify(vm.products[i]))
+            // vm.productTemp = { ...vm.products[i] };
           }
         });
       } else {
         vm.products.forEach((el, i) => {
           if (el.id === id) {
-            vm.productTemp = { ...vm.products[i] };
+            vm.productTemp = JSON.parse(JSON.stringify(vm.products[i]))
+            // vm.productTemp = { ...vm.products[i] };
           }
         });
       }
@@ -95,14 +100,14 @@ const app = {
             })
             .catch((err) => console.log(err));
         }
-      }else{
+      } else {
         axios[method](excuteAPI)
-            .then((res) => {
-              vm.productTemp = {};
-              vm.getProductAll();
-              productModal.hide();
-            })
-            .catch((err) => console.log(err));
+          .then((res) => {
+            vm.productTemp = {};
+            vm.getProductAll();
+            productModal.hide();
+          })
+          .catch((err) => console.log(err));
       }
     },
     switchImgBtn(status) {
@@ -122,13 +127,15 @@ const app = {
       const vm = this;
       vm.isActive = num;
     },
-    getProductAll() {
+    getProductAll(page=1) {
       this.isLoading = true;
-      const getProductsAPI = `${url}api/${path}/admin/products/all`;
+      const getProductsAPI = `${url}api/${path}/admin/products/?page=${page}`;
+      // const getProductsAPI = `${url}api/${path}/admin/products/all`;
       axios
         .get(getProductsAPI)
         .then((res) => {
           this.products = Object.values(res.data.products);
+          this.pagination = res.data.pagination
           this.isLoading = false;
         })
         .catch((err) => console.log(err));
@@ -165,5 +172,10 @@ const app = {
         .catch((err) => console.log(err));
     },
   },
+  components: { pagination }
 };
-createApp(app).mount("#app");
+
+createApp(app).component('product-modal-temp',{
+  template:'#product-modal-temp',
+  props: ['modalFor', 'productTemp','insertImgBtn','excute']
+}).mount("#app");
