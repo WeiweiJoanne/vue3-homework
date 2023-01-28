@@ -52,13 +52,15 @@ const app = {
       } else if (todo == "edit") {
         vm.products.forEach((el, i) => {
           if (el.id === id) {
-            vm.productTemp = { ...vm.products[i] };
+            vm.productTemp = JSON.parse(JSON.stringify(vm.products[i]))
+            // vm.productTemp = { ...vm.products[i] };
           }
         });
       } else {
         vm.products.forEach((el, i) => {
           if (el.id === id) {
-            vm.productTemp = { ...vm.products[i] };
+            vm.productTemp = JSON.parse(JSON.stringify(vm.products[i]))
+            // vm.productTemp = { ...vm.products[i] };
           }
         });
       }
