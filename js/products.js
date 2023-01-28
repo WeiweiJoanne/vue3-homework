@@ -174,4 +174,8 @@ const app = {
   },
   components: { pagination }
 };
-createApp(app).mount("#app");
+
+createApp(app).component('product-modal-temp',{
+  template:'#product-modal-temp',
+  props: ['modalFor', 'productTemp','insertImgBtn','excute']
+}).mount("#app");
