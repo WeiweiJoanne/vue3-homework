@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,99 +9,116 @@
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 </head>
+
 <body>
   <div id="app">
-  <div class="container-xxl">
-    <div class="row align-items-start">
-      <div class="col mx-1">
-        <table class="table align-middle table-sm">
-          <thead>
-            <tr>
-              <th>圖片</th>
-              <th>商品名稱</th>
-              <th>價格</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr >
-              <td style="width:150px"><img src="https://shoplineimg.com/5dc02747d9d3e3001238fcbd/634f970138e5cc002b6da304/800x.webp?source_format=jpg" class="img-fluid" alt="..."></td>
-              <td>蜂蜜檸檬蛋糕</td>
-              <td>
-                <p>原價 1000 元</p>
-                <p>現在只要 900 元</p>
-              </td>
-              <td>
-                <button type="button" class="btn btn-outline-secondary"> 查看更多 </button>
-                <button type="button" class="btn btn-outline-danger"> 加到購物車 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="container-xxl">
+      <div class="row align-items-start">
+        <div class="col-sm-12 col-md-6 p-4">
+          <table class="table align-middle table-sm">
+            <thead>
+              <tr>
+                <th>圖片</th>
+                <th>商品名稱</th>
+                <th>價格</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="width:150px"><img
+                    src="https://shoplineimg.com/5dc02747d9d3e3001238fcbd/634f970138e5cc002b6da304/800x.webp?source_format=jpg"
+                    class="img-fluid" alt="..."></td>
+                <td>蜂蜜檸檬蛋糕</td>
+                <td>
+                  <p>原價 1000 元</p>
+                  <p>現在只要 900 元</p>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-secondary"> 查看更多 </button>
+                  <button type="button" class="btn btn-outline-danger"> 加到購物車 </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <div class="col mx-1">
-      <table class="table align-middle table-sm">
-        <thead>
-          <tr>
-            <th></th>
-            <th>品名</th>
-            <th>數量/單位</th>
-            <th>單價</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td >
-              <button class="btn btn-danger rounded-circle my-2" type="button">X</button>
-            </td>
-            <td>蜂蜜檸檬蛋糕</td>
-            <td>
-              <div class="input-group">
-                <input min="1" type="number" class="form-control" value="1">
-                <span class="input-group-text" id="basic-addon2">個</span></div>
-              </td>
-            <td>900</td>
-          </tr>
-        </tbody>
-      </table>
-      <form class="mt-5">
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="name-input" placeholder="收件人姓名">
-          <label for="name-input">收件人姓名</label>
+        <div class="col-sm-12 col-md-6 p-4">
+          <table class="table align-middle table-sm">
+            <thead>
+              <tr>
+                <th></th>
+                <th>品名</th>
+                <th>數量/單位</th>
+                <th>單價</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button class="btn btn-danger rounded-circle my-2" type="button">X</button>
+                </td>
+                <td>蜂蜜檸檬蛋糕</td>
+                <td>
+                  <div class="input-group">
+                    <input min="1" type="number" class="form-control" value="1">
+                    <span class="input-group-text" id="basic-addon2">個</span>
+                  </div>
+                </td>
+                <td>900</td>
+              </tr>
+            </tbody>
+          </table>
+          <v-form class="mt-5" v-slot="{ errors }" @submit="onSubmit">
+            <div class="form-floating mb-3">
+              <v-field id="username" name="姓名" type="username" class="form-control" :class="{ 'is-invalid': errors['姓名'] }"
+                placeholder="請輸入 username" rules="required" v-model="user.username"></v-field>
+              <label for="username-input">Name</label>
+              <error-message name="姓名" class="invalid-feedback"></error-message>
+            </div>
+            <div class="form-floating mb-3">
+              <v-field id="email" name="Email" type="email" class="form-control" :class="{ 'is-invalid': errors['Email'] }"
+                placeholder="請輸入 Email" rules="email|required" v-model="user.email"></v-field>
+              <label for="email-input">Email</label>
+              <error-message name="Email" class="invalid-feedback"></error-message>
+            </div>
+            <div class="form-floating mb-3">
+              <v-field id="telphone" name="電話" type="tel" class="form-control"
+                :class="{ 'is-invalid': errors['電話'] }" placeholder="請輸入 telphone" rules="min: 8|numeric|required"
+                v-model="user.telphone"></v-field>
+              <label for="telphone-input">Telphone</label>
+              <error-message name="電話" class="invalid-feedback"></error-message>
+            </div>
+            <div class="form-floating mb-3">
+              <v-field id="address" name="地址" type="tel" class="form-control" :class="{ 'is-invalid': errors['地址'] }"
+                placeholder="請輸入 address" rules="min_value: 8|required" v-model="user.address"></v-field>
+              <label for="address-input">Address</label>
+              <error-message name="地址" class="invalid-feedback"></error-message>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea style="height: 100px" id="message" name="message" type="text" class="form-control" placeholder="請輸入 message" v-model="user.message"></textarea>
+              <label for="message-input">Message</label>
+              <error-message name="message" class="invalid-feedback"></error-message>
+            </div>
+            <div class="text-end d-grid">
+            <button class="btn btn-primary" type="submit">送出</button>
+            </div>
+          </v-form>
         </div>
-        <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="email-input" placeholder="Email">
-          <label for="email-input">Email</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="number-onput" placeholder="收件人電話">
-          <label for="number-onput">收件人電話</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="address-input" placeholder="收件人地址">
-          <label for="address-input">收件人地址</label>
-        </div>
-        <div class="form-floating mb-3">
-          <textarea class="form-control" placeholder="Leave a comment here" id="message"
-            style="height: 100px"></textarea>
-          <label for="message">留言</label>
-        </div>
-        <div class="text-end d-grid">
-          <button type="button" class="btn btn-primary">送出</button>
-        </div>
-      </form>
       </div>
-      
     </div>
   </div>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@3.2.45/dist/vue.global.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
 
   <script src="./js/cart.js"></script>
 
 </body>
+
 </html>
