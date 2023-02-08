@@ -10,59 +10,86 @@
 </head>
 <body>
   <div id="app">
-  <div class="container-xl">
+  <div class="container-xxl">
     <div class="row align-items-start">
-      <div class="col">
-        <table class="table">
+      <div class="col mx-1">
+        <table class="table align-middle table-sm">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th>圖片</th>
+              <th>商品名稱</th>
+              <th>價格</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
+            <tr >
+              <td style="width:150px"><img src="https://shoplineimg.com/5dc02747d9d3e3001238fcbd/634f970138e5cc002b6da304/800x.webp?source_format=jpg" class="img-fluid" alt="..."></td>
+              <td>蜂蜜檸檬蛋糕</td>
+              <td>
+                <p>原價 1000 元</p>
+                <p>現在只要 900 元</p>
+              </td>
+              <td>
+                <button type="button" class="btn btn-outline-secondary"> 查看更多 </button>
+                <button type="button" class="btn btn-outline-danger"> 加到購物車 </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="col">
-      <table class="table">
+      <div class="col mx-1">
+      <table class="table align-middle table-sm">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th></th>
+            <th>品名</th>
+            <th>數量/單位</th>
+            <th>單價</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td >
+              <button class="btn btn-danger rounded-circle my-2" type="button">X</button>
+            </td>
+            <td>蜂蜜檸檬蛋糕</td>
+            <td>
+              <div class="input-group">
+                <input min="1" type="number" class="form-control" value="1">
+                <span class="input-group-text" id="basic-addon2">個</span></div>
+              </td>
+            <td>900</td>
           </tr>
         </tbody>
       </table>
+      <form class="mt-5">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="name-input" placeholder="收件人姓名">
+          <label for="name-input">收件人姓名</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="email-input" placeholder="Email">
+          <label for="email-input">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="number-onput" placeholder="收件人電話">
+          <label for="number-onput">收件人電話</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="address-input" placeholder="收件人地址">
+          <label for="address-input">收件人地址</label>
+        </div>
+        <div class="form-floating mb-3">
+          <textarea class="form-control" placeholder="Leave a comment here" id="message"
+            style="height: 100px"></textarea>
+          <label for="message">留言</label>
+        </div>
+        <div class="text-end d-grid">
+          <button type="button" class="btn btn-primary">送出</button>
+        </div>
+      </form>
       </div>
       
     </div>
