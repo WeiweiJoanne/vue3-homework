@@ -48,16 +48,17 @@ const app = Vue.createApp({
      }
       axios.post(`${url}api/${path}/cart`,data)
         .then(res => {
-          console.log(res);
+          
           this.$refs.refModal.hideModal();
         })
     }
   },
   components:{
-    productModal
+    productModal,
   }
 })
 app.component('VForm', Form);
 app.component('VField', Field);
 app.component('ErrorMessage', ErrorMessage);
+
 app.mount('#app')

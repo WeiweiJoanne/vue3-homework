@@ -16,6 +16,7 @@ export default {
       axios.get(`${url}api/${path}/product/${vm.showProductId}`)
         .then(res => {
           vm.temProduct = res.data.product
+          vm.qty = 1
           vm.modal.show()
         })
     }
