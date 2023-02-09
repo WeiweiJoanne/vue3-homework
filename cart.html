@@ -25,18 +25,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style="width:150px"><img
-                    src="https://shoplineimg.com/5dc02747d9d3e3001238fcbd/634f970138e5cc002b6da304/800x.webp?source_format=jpg"
-                    class="img-fluid" alt="..."></td>
-                <td>蜂蜜檸檬蛋糕</td>
+              <tr v-for="product in products" :key="product.id">
+                <td style="width:150px">
+                  <img :src="product.imageUrl"
+                    class="img-fluid" alt="...">
+                </td>
+                <td>{{product.title}}</td>
                 <td>
-                  <p>原價 1000 元</p>
-                  <p>現在只要 900 元</p>
+                  <div v-if="product.origin_price !== product.price">
+                    <del class="h6">原價 {{product.origin_price}} 元</del>
+                    <div class="h5">現在只要 {{product.price}} 元</div>
+                  </div>
+                  <div v-else><div class="h5">售價 {{product.price}} 元</div></div>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-secondary"> 查看更多 </button>
-                  <button type="button" class="btn btn-outline-danger"> 加到購物車 </button>
+                  <button type="button" class="btn btn-outline-secondary" @click="showProductDetail(product.id)"> 查看更多
+                  </button>
+                  <button type="button" class="btn btn-outline-danger" @click="addToCart(product.id)"> 加到購物車 </button>
                 </td>
               </tr>
             </tbody>
@@ -107,6 +112,47 @@
         </div>
       </div>
     </div>
+
+    <product-modal :show-product-id="showProductId" :add-to-cart="addToCart" ref="refModal"></product-modal>
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true" ref="modal">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content border-0">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <span>{{ product.title }}</span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <img class="img-fluid" :src="product.imagesUrl" alt="">
+              </div>
+              <div class="col-sm-6">
+                <span class="badge bg-primary rounded-pill">{{ product.category }}</span>
+                <p>商品描述：{{ product.description }}</p>
+                <p>商品內容：{{ product.content }}</p>
+                <div class="h5" v-if="!product.price">{{ product.origin_price }} 元</div>
+                <del class="h6" v-if="product.price">原價 {{ product.origin_price }} 元</del>
+                <div class="h5" v-if="product.price">現在只要 {{ product.price }} 元</div>
+                <div>
+                  <div class="input-group">
+                    <input type="number" class="form-control" v-model.number="qty" min="1">
+                    <button type="button" class="btn btn-primary"
+                      @click="$emit('add-to-cart', product.id, qty)">加入購物車</button>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
@@ -117,7 +163,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
 
-  <script src="./js/cart.js"></script>
+  <script src="./js/cart.js" type="module"></script>
 
 </body>
 
