@@ -85,21 +85,26 @@ const app = Vue.createApp({
       // /v2/api/{api_path}/cart/{id}
 
       const vm = this
-      vm.isLoading = true
       if (id === 'all') {
-        axios.delete(`${url}api/${path}/carts`)
-          .then(res => {
-            console.log(res)
-            if (res.data.success) {
-              alert(res.data.message)
-              vm.getCart()
-              vm.isLoading = false
-            }else{
-              alert(res.data.message)
-            }
-          })
-          .catch(err=> console.log(err))
+        if(vm.carts.length > 0){
+          vm.isLoading = true
+          axios.delete(`${url}api/${path}/carts`)
+            .then(res => {
+              console.log(res)
+              if (res.data.success) {
+                alert(res.data.message)
+                vm.getCart()
+                vm.isLoading = false
+              }else{
+                alert(res.data.message)
+              }
+            })
+            .catch(err=> console.log(err))
+        }else{
+          alert('購物車內無商品')
+        }
       } else {
+        vm.isLoading = true
         axios.delete(`${url}api/${path}/cart/${id}`)
           .then(res => {
             if (res.data.success) {
@@ -130,7 +135,6 @@ const app = Vue.createApp({
     carts:{
       handler(){
         const vm = this
-        console.log(vm)
         vm.total
       },
       deep:true
