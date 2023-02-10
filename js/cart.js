@@ -40,7 +40,7 @@ const app = Vue.createApp({
   methods: {
     onSubmit() {
       const vm = this
-      if(carts.length > 0){
+      if(vm.carts.length > 0){
         alert('建立訂單')
         vm.user = {}
         vm.carts = []
