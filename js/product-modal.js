@@ -17,6 +17,7 @@ export default {
         .then(res => {
           vm.temProduct = res.data.product
           vm.qty = 1
+          vm.$emit('closeLoading') 
           vm.modal.show()
         })
     }
@@ -53,7 +54,7 @@ export default {
                   </div>
                   <div>
                     <div class="input-group">
-                      <select class="form-control" v-model="qty">
+                      <select class="form-control" v-model.number="qty">
                         <option v-for="i in 20">{{i}}</option>  
                       </select>  
                       <button type="button" class="btn btn-primary" @click="addToCart(temProduct.id,qty)">加入購物車</button>
