@@ -39,7 +39,14 @@ const app = Vue.createApp({
   },
   methods: {
     onSubmit() {
-      alert('建立訂單')
+      const vm = this
+      if(carts.length > 0){
+        alert('建立訂單')
+        vm.user = {}
+        vm.carts = []
+      }else{
+        alert('請選購商品後再結帳')
+      }
     },
     showProductDetail(id) {
       const vm = this
