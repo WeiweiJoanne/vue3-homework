@@ -84,7 +84,11 @@
                 </td>
                 <td>${{item.product.price}}</td>
               </tr>
+              <tr>
+                <td colspan="4" class="text-end">總共: ${{total}}</td>
+              </tr>
             </tbody>
+            
           </table>
           <v-form class="mt-5" v-slot="{ errors }" @submit="onSubmit">
             <div class="form-floating mb-3">

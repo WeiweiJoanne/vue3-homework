@@ -39,7 +39,7 @@ const app = Vue.createApp({
   },
   methods: {
     onSubmit() {
-      alert('資料送出')
+      alert('建立訂單')
     },
     showProductDetail(id) {
       const vm = this
@@ -107,6 +107,26 @@ const app = Vue.createApp({
       }
 
 
+    }
+  },
+  computed:{
+    total(){
+      const vm = this
+      let total = 0;
+      vm.carts.forEach(e=>{
+        total += e.final_total
+      })
+      return total;
+    }
+  },
+  watch:{
+    carts:{
+      handler(){
+        const vm = this
+        console.log(vm)
+        vm.total
+      },
+      deep:true
     }
   },
   components: {
