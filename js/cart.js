@@ -17,44 +17,132 @@ const url = "https://vue3-course-api.hexschool.io/v2/";
 const path = "petshome";
 
 const app = Vue.createApp({
-  data(){
+  data() {
     return {
-      user:{},
-      products:[],
-      showProductId:null
+      user: {},
+      products: [],
+      carts: [],
+      showProductId: null,
+      isLoading: true
     }
   },
   mounted() {
-    const vm=this
+    const vm = this
     axios.get(`${url}api/${path}/products/all`)
-      .then(res=>{
+      .then(res => {
         vm.products = res.data.products
+        vm.isLoading = false
       })
+      .catch(err=> console.log(err))
+      vm.getCart()
+    
   },
   methods: {
     onSubmit() {
-      console.log('submit');
+      const vm = this
+      if(vm.carts.length > 0){
+        alert('建立訂單')
+        vm.user = {}
+        vm.carts = []
+      }else{
+        alert('請選購商品後再結帳')
+      }
     },
-    showProductDetail(id){
-      this.showProductId = id
+    showProductDetail(id) {
+      const vm = this
+      vm.isLoading = true
+      vm.showProductId = id
     },
-    addToCart(id,qty=1){
-     // / v2 / api / { api_path } / cart
-     const data = {
-       data: {
-         product_id: id,
-         qty: qty
-       }
-     }
-      axios.post(`${url}api/${path}/cart`,data)
+    addToCart(id, qty = 1) {
+      // / v2 / api / { api_path } / cart
+      const vm = this
+      vm.isLoading = true
+      const data = {
+        data: {
+          product_id: id,
+          qty: qty
+        }
+      }
+      axios.post(`${url}api/${path}/cart`, data)
         .then(res => {
-          
-          this.$refs.refModal.hideModal();
+          vm.getCart()
+          vm.$refs.refModal.hideModal();
+          vm.isLoading = false
         })
+        .catch(err=> console.log(err))
+    },
+    getCart() {
+      // /v2/api/{api_path}/cart
+      const vm = this
+      axios.get(`${url}api/${path}/cart`)
+        .then(res => {
+          const data = res.data.data.carts
+          vm.carts = data
+        })
+        .catch(err=> console.log(err))
+    },
+    deleteCart(id) {
+      // /v2/api/{api_path}/cart/{id}
+
+      const vm = this
+      if (id === 'all') {
+        if(vm.carts.length > 0){
+          vm.isLoading = true
+          axios.delete(`${url}api/${path}/carts`)
+            .then(res => {
+              console.log(res)
+              if (res.data.success) {
+                alert(res.data.message)
+                vm.getCart()
+                vm.isLoading = false
+              }else{
+                alert(res.data.message)
+              }
+            })
+            .catch(err=> console.log(err))
+        }else{
+          alert('購物車內無商品')
+        }
+      } else {
+        vm.isLoading = true
+        axios.delete(`${url}api/${path}/cart/${id}`)
+          .then(res => {
+            if (res.data.success) {
+              alert(res.data.message)
+              vm.getCart()
+              vm.isLoading = false
+            }else{
+              alert(res.data.message)
+            }
+          })
+          .catch(err=> console.log(err))
+      }
+
+
     }
   },
-  components:{
+  computed:{
+    total(){
+      const vm = this
+      let total = 0;
+      vm.carts.forEach(e=>{
+        total += e.final_total
+      })
+      return total;
+    }
+  },
+  watch:{
+    carts:{
+      handler(){
+        const vm = this
+        vm.total
+      },
+      deep:true
+    }
+  },
+  components: {
     productModal,
+    loading: VueLoading.Component
   }
 })
 app.component('VForm', Form);
