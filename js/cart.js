@@ -4,7 +4,7 @@ Object.keys(VeeValidateRules).forEach(rule => {
     VeeValidate.defineRule(rule, VeeValidateRules[rule]);
   }
 });
-VeeValidateI18n.loadLocaleFromURL('/js/zh_TW.json');
+VeeValidateI18n.loadLocaleFromURL('./js/zh_TW.json');
 
 // Activate the locale
 VeeValidate.configure({
